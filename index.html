@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Logan Ramanathan — Physics & Engineering</title>
+<meta name="description" content="Logan Ramanathan — physics undergrad at Brown. Plasma diagnostics, planetary science, and hardware I build. Projects, experience, and publications." />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#fbfbf9;
+    --ink:#0c0c0d;
+    --muted:#6c6c70;
+    --faint:#9a9a9e;
+    --rule:#e4e4df;
+    --rule-strong:#111113;
+    --accent:#1f4d3a;     /* deep green, used sparingly */
+    --accent-ink:#143025;
+    --max:1240px;
+    --display:"Inter","Helvetica Neue",Arial,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+    --body:"Inter","Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+
+  /* ---- top bar ---- */
+  .topbar{border-bottom:1.5px solid var(--rule-strong);position:sticky;top:0;z-index:50;background:rgba(251,251,249,0.92);backdrop-filter:blur(8px)}
+  .topbar-inner{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;gap:0}
+  .tb-left{padding:14px 28px;display:flex;flex-direction:column;justify-content:center;gap:3px;border-right:1.5px solid var(--rule-strong)}
+  .tb-mono{font-family:var(--mono);font-size:0.66rem;letter-spacing:0.5px;color:var(--muted)}
+  .tb-mono .blink{color:var(--accent)}
+  .tb-mid{display:flex;align-items:center;gap:30px;padding:0 28px}
+  .tb-mid a{font-family:var(--mono);font-size:0.74rem;letter-spacing:3px;color:var(--ink);padding:6px 0;border-bottom:2px solid transparent;transition:border-color .15s}
+  .tb-mid a:hover,.tb-mid a.active{border-color:var(--ink)}
+  .tb-right{display:flex;align-items:stretch;justify-content:flex-end;border-left:1.5px solid var(--rule-strong)}
+  .tb-icons{display:flex;flex-direction:column;border-right:1.5px solid var(--rule-strong)}
+  .tb-icons a{display:flex;align-items:center;justify-content:center;width:46px;flex:1;border-bottom:1.5px solid var(--rule-strong)}
+  .tb-icons a:last-child{border-bottom:none}
+  .tb-icons svg{width:17px;height:17px;fill:var(--ink)}
+  .tb-note{padding:12px 20px;display:flex;flex-direction:column;justify-content:center;gap:3px;min-width:190px}
+  .tb-note .small{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.5px;color:var(--faint)}
+  .tb-note .chat{font-size:0.78rem;font-weight:600}
+  .tb-note .chat a{color:var(--accent);font-weight:700}
+  .tb-note .resume a{font-family:var(--mono);font-size:0.66rem;text-decoration:underline;text-underline-offset:3px}
+  @media(max-width:1080px){.tb-mid{display:none}.tb-note{display:none}}
+
+  /* ---- name band ---- */
+  .nameband{border-bottom:1.5px solid var(--rule-strong)}
+  .nameband .wrap{padding-top:14px;padding-bottom:0}
+  .giant{font-family:var(--display);font-weight:900;font-size:clamp(2rem,9vw,7rem);line-height:0.92;letter-spacing:-0.045em;white-space:nowrap;text-transform:uppercase}
+  @media(max-width:720px){.giant{white-space:normal;font-size:clamp(2.4rem,11.5vw,4rem)}}
+  .subline{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:10px;padding:14px 0 18px;font-family:var(--mono);font-size:0.72rem;letter-spacing:0.5px;color:var(--muted)}
+  .subline .role{color:var(--ink)}
+
+  /* ---- binary strip ---- */
+  .binary{border-bottom:1.5px solid var(--rule-strong);background:var(--bg);overflow:hidden;white-space:nowrap}
+  .binary span{font-family:var(--mono);font-size:0.62rem;letter-spacing:1px;color:var(--faint);padding:7px 0;display:inline-block}
+
+  /* ---- sections ---- */
+  section{border-bottom:1.5px solid var(--rule-strong);padding:72px 0}
+  .kicker{font-family:var(--mono);font-size:0.66rem;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:14px}
+  .h-big{font-family:var(--display);font-weight:800;font-size:clamp(2.4rem,6vw,4.2rem);letter-spacing:-0.03em;line-height:1}
+
+  /* about */
+  .about-grid{display:grid;grid-template-columns:1.05fr 0.95fr 0.85fr;gap:48px;margin-top:44px;align-items:start}
+  @media(max-width:980px){.about-grid{grid-template-columns:1fr 1fr;gap:36px}.about-skills{grid-column:1/-1}}
+  @media(max-width:640px){.about-grid{grid-template-columns:1fr}}
+  .bio p{font-size:1.06rem;color:#26262a;margin-bottom:18px;max-width:34ch}
+  .bio strong{font-weight:700;color:var(--ink)}
+  .photo-wrap{position:relative;padding:0 14px 14px 0}
+  .photo-wrap::after{content:"";position:absolute;top:14px;right:0;bottom:0;left:14px;border:1.5px solid var(--rule-strong);z-index:0}
+  .photo-wrap img{position:relative;z-index:1;width:100%;display:block;filter:grayscale(8%)}
+  .photo-cap{font-family:var(--mono);font-size:0.64rem;color:var(--faint);margin-top:16px;letter-spacing:0.5px}
+  .skills h3{font-family:var(--display);font-weight:800;font-size:1.5rem;letter-spacing:-0.02em;margin-bottom:6px}
+  .skill-block{padding:16px 0;border-top:1px solid var(--rule)}
+  .skill-block:first-of-type{border-top:1.5px solid var(--rule-strong)}
+  .skill-cat{font-family:var(--mono);font-size:0.62rem;letter-spacing:2.5px;color:var(--faint);margin-bottom:9px}
+  .skill-items{display:flex;flex-wrap:wrap;gap:x;column-gap:18px;row-gap:7px}
+  .skill-items span{font-size:0.95rem;font-weight:500}
+
+  /* experience */
+  .xp-row{display:grid;grid-template-columns:200px 1fr;gap:32px;padding:26px 0;border-top:1px solid var(--rule)}
+  .xp-row:first-of-type{border-top:1.5px solid var(--rule-strong)}
+  .xp-when{font-family:var(--mono);font-size:0.72rem;color:var(--muted);letter-spacing:0.5px}
+  .xp-when .now{display:inline-block;margin-top:8px;color:var(--accent);font-weight:700}
+  .xp-role{font-family:var(--display);font-weight:700;font-size:1.3rem;letter-spacing:-0.01em}
+  .xp-org{font-size:0.98rem;margin-top:2px}
+  .xp-org .where{color:var(--faint)}
+  .xp-desc{color:#3a3a3e;font-size:0.97rem;margin-top:10px;max-width:70ch}
+  @media(max-width:640px){.xp-row{grid-template-columns:1fr;gap:8px}}
+
+  /* work */
+  .work-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:40px;border-top:1.5px solid var(--rule-strong);border-left:1.5px solid var(--rule-strong)}
+  @media(max-width:760px){.work-grid{grid-template-columns:1fr}}
+  .work{position:relative;border-right:1.5px solid var(--rule-strong);border-bottom:1.5px solid var(--rule-strong);padding:26px 26px 30px;background:var(--bg);transition:background .15s;display:flex;flex-direction:column}
+  .work:hover{background:#f3f3ee}
+  .work .stretch{position:absolute;inset:0;z-index:1}
+  .work a:not(.stretch){position:relative;z-index:2}
+  .work.linked{cursor:pointer}
+  .work.linked:hover{background:#eeeee8}
+  .thumbs{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+  .thumb{width:86px;height:64px;border:1.5px solid var(--rule-strong);overflow:hidden;background:#efefea;cursor:zoom-in;padding:0;position:relative;z-index:2;display:block}
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .25s}
+  .thumb:hover img{transform:scale(1.08)}
+  #lb{position:fixed;inset:0;background:rgba(8,8,10,0.92);display:none;align-items:center;justify-content:center;z-index:200;padding:28px;cursor:zoom-out}
+  #lb.open{display:flex}
+  #lb img{max-width:92vw;max-height:90vh;border:2px solid #fff;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+  .work.span2{grid-column:1/-1}
+  .work-idx{font-family:var(--mono);font-size:0.7rem;color:var(--faint);display:flex;justify-content:space-between;align-items:center;letter-spacing:1px}
+  .work-tag{font-family:var(--mono);font-size:0.6rem;letter-spacing:1px;border:1.5px solid var(--rule-strong);border-radius:2px;padding:3px 8px;text-transform:uppercase}
+  .work-tag.live{color:var(--accent);border-color:var(--accent)}
+  .work-tag.soon{color:#a05a1f;border-color:#d9a878}
+  .work h3{font-family:var(--display);font-weight:800;font-size:1.5rem;letter-spacing:-0.02em;margin-top:14px}
+  .work .cat{font-family:var(--mono);font-size:0.68rem;color:var(--muted);margin-top:6px;letter-spacing:0.5px}
+  .work p{color:#3a3a3e;font-size:0.96rem;margin-top:14px;flex:1;max-width:60ch}
+  .work-foot{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px;align-items:center}
+  .pill{font-family:var(--mono);font-size:0.64rem;color:var(--ink);border:1px solid var(--rule);border-radius:2px;padding:3px 8px}
+  .work-link{font-family:var(--mono);font-size:0.74rem;margin-top:16px;color:var(--accent);font-weight:700;text-decoration:underline;text-underline-offset:3px;align-self:flex-start}
+  .work-more{font-family:var(--mono);font-size:0.74rem;margin-top:18px;color:var(--accent);font-weight:700;align-self:flex-start}
+  .work:hover .work-more{text-decoration:underline;text-underline-offset:3px}
+  /* guitar gallery */
+  .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}
+  @media(max-width:760px){.gallery{grid-template-columns:repeat(2,1fr)}}
+  .gallery a{display:block;aspect-ratio:3/4;border:1.5px solid var(--rule-strong);overflow:hidden;background:#efefea}
+  .gallery img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+  .gallery a:hover img{transform:scale(1.04)}
+  .ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.6rem;color:var(--faint);text-align:center;padding:8px;background:repeating-linear-gradient(45deg,#f0f0eb,#f0f0eb 8px,#e8e8e2 8px,#e8e8e2 16px)}
+  .work.guitar-feature{display:block}
+  .camera-feature{display:grid;grid-template-columns:1.05fr 0.95fr;gap:28px;align-items:stretch}
+  .camera-feature .cf-text{display:flex;flex-direction:column}
+  .camera-feature .cf-media{border:1.5px solid var(--rule-strong);overflow:hidden;background:#efefea;min-height:300px;display:block}
+  .camera-feature .cf-media img{width:100%;height:100%;object-fit:cover;object-position:50% 28%;display:block}
+  @media(max-width:760px){.camera-feature{grid-template-columns:1fr}.camera-feature .cf-media{min-height:240px}}
+
+  /* publications */
+  .pub{display:grid;grid-template-columns:46px 1fr auto;gap:18px;padding:18px 0;border-top:1px solid var(--rule);align-items:baseline}
+  .pub:first-of-type{border-top:1.5px solid var(--rule-strong)}
+  .pub-n{font-family:var(--mono);font-size:0.8rem;color:var(--faint)}
+  .pub-t{font-size:1.02rem;font-weight:600}
+  .pub-t a{text-decoration:none;transition:color .15s}
+  .pub-t a:hover{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+  .pub-scholar{margin-top:14px}
+  .pub-scholar a{font-family:var(--mono);font-size:0.78rem;color:var(--accent);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+  .pub-a{font-size:0.86rem;color:var(--muted);margin-top:3px}
+  .pub-v{font-family:var(--mono);font-size:0.68rem;color:var(--accent);white-space:nowrap;text-transform:uppercase;letter-spacing:0.5px}
+  @media(max-width:640px){.pub{grid-template-columns:34px 1fr}.pub-v{grid-column:2;margin-top:4px}}
+
+  /* contact */
+  .contact{padding:88px 0}
+  .contact .h-big{margin-top:8px}
+  .contact-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+  .cbtn{font-family:var(--mono);font-size:0.8rem;border:1.5px solid var(--rule-strong);padding:12px 22px;border-radius:2px;transition:background .15s,color .15s}
+  .cbtn:hover{background:var(--ink);color:var(--bg)}
+  .cbtn.primary{background:var(--ink);color:var(--bg)}
+  .cbtn.primary:hover{background:var(--accent);border-color:var(--accent)}
+
+  footer{padding:26px 0 48px}
+  .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-family:var(--mono);font-size:0.68rem;color:var(--faint);letter-spacing:0.5px}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="tb-left">
+      <span class="tb-mono">&gt; DESIGN · BUILD · MEASURE</span>
+    </div>
+    <nav class="tb-mid">
+      <a href="#about" class="active">ABOUT</a>
+      <a href="#experience">EXPERIENCE</a>
+      <a href="#work">PROJECTS</a>
+      <a href="#research">RESEARCH</a>
+      <a href="#contact">CONTACT</a>
+    </nav>
+    <div class="tb-right">
+      <div class="tb-icons">
+        <a href="https://linkedin.com/in/loganramanathan" target="_blank" aria-label="LinkedIn">
+          <svg viewBox="0 0 16 16"><path d="M0 1.15C0 .51.53 0 1.19 0h13.62C15.47 0 16 .51 16 1.15v13.7c0 .64-.53 1.15-1.19 1.15H1.19C.53 16 0 15.49 0 14.85V1.15zM4.94 13.4V6.17H2.54v7.23h2.4zM3.74 5.18c.84 0 1.36-.55 1.36-1.24-.02-.71-.52-1.24-1.34-1.24-.82 0-1.36.53-1.36 1.24 0 .69.52 1.24 1.33 1.24h.01zM8.34 13.4V9.36c0-.22.02-.43.08-.59.17-.43.56-.88 1.21-.88.85 0 1.19.65 1.19 1.6v3.91h2.4V9.21c0-2.22-1.18-3.25-2.76-3.25-1.28 0-1.85.7-2.17 1.2h.02v-.99h-2.4c.03.68 0 7.23 0 7.23h2.4z"/></svg>
+        </a>
+        <a href="https://scholar.google.com/citations?hl=en&amp;user=NaYXsH0AAAAJ" target="_blank" aria-label="Google Scholar">
+          <svg viewBox="0 0 16 16"><path d="M8 0L0 4.2l8 4.2 6.5-3.4v5.2H16V4.2L8 0zM3 8.1v2.7c0 1.5 2.2 2.7 5 2.7s5-1.2 5-2.7V8.1l-5 2.6L3 8.1z"/></svg>
+        </a>
+      </div>
+      <div class="tb-note">
+        <span class="small">// physics @ brown</span>
+        <span class="chat">Open to internships → <a href="mailto:logan_ramanathan@brown.edu">Reach out</a></span>
+        <span class="resume"><a href="assets/Logan_Ramanathan_Resume.pdf" target="_blank">Résumé ↗</a></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="nameband">
+  <div class="wrap">
+    <h1 class="giant">Logan Ramanathan</h1>
+    <div class="subline">
+      <span class="role">Physics undergrad · Brown University · plasma diagnostics, planetary science &amp; hardware</span>
+      <span>California&nbsp;/&nbsp;Rhode Island</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <p class="kicker reveal">// 01 — Who</p>
+    <h2 class="h-big reveal">About</h2>
+    <div class="about-grid">
+      <div class="bio reveal">
+        <p>I'm Logan — a physicist interested in space science and engineering. I study <strong>Physics (Sc.B.)</strong> at <strong>Brown University</strong>, graduating in 2028.</p>
+        <p>This summer I'm at the <strong>Stanford Plasma Physics Lab</strong> working on plasma diagnostics for space propulsion applications. I also do research with <strong>Professor Jim Head</strong> at Brown University on Moon and Mars mission design. I was previously an integration &amp; test engineer at <strong>Rocket Lab</strong>, in the space systems division.</p>
+        <p>I'm also a guitar player, training to get a private pilot's license, and learning Russian.</p>
+      </div>
+      <div class="reveal">
+        <div class="photo-wrap"><img src="assets/headshot.png" alt="Logan Ramanathan" /></div>
+        <p class="photo-cap">↳ Providence, RI · Stanford, CA</p>
+      </div>
+      <div class="skills about-skills reveal">
+        <h3>Core Skills</h3>
+        <div class="skill-block">
+          <p class="skill-cat">SIMULATE + ANALYZE</p>
+          <div class="skill-items"><span>Python</span><span>OpenCV</span><span>scikit-learn</span><span>LangChain</span><span>MATLAB</span><span>R</span></div>
+        </div>
+        <div class="skill-block">
+          <p class="skill-cat">MEASURE + TEST</p>
+          <div class="skill-items"><span>Oscilloscopes</span><span>VNA</span><span>LabVIEW DAQ</span><span>Plasma diagnostics</span><span>RF / impedance matching</span><span>Vacuum systems</span></div>
+        </div>
+        <div class="skill-block">
+          <p class="skill-cat">DESIGN + FABRICATE</p>
+          <div class="skill-items"><span>Fusion 360</span><span>Siemens NX</span><span>QGIS / JMARS</span><span>CNC / mills</span><span>TIG / MIG welding</span><span>3D printing</span><span>GD&amp;T</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="wrap">
+    <p class="kicker reveal">// 02 — Where I've been</p>
+    <h2 class="h-big reveal">Experience</h2>
+    <div style="margin-top:40px" class="reveal">
+      <div class="xp-row">
+        <div class="xp-when">JUN 2026 — AUG 2026<span class="now">● CURRENT</span></div>
+        <div>
+          <p class="xp-role">Research Intern</p>
+          <p class="xp-org">Stanford Plasma Physics Lab <span class="where">· Stanford, CA · w/ Prof. Cappelli &amp; Dr. Biswas</span></p>
+          <p class="xp-desc">Designing and building a self-compensating Langmuir probe to measure electron density, temperature, and EEDFs across an RF ICP discharge. Building an optical emission spectroscopy workflow (Ar collisional-radiative model) and VNA-based microwave interferometry for cross-validation.</p>
+        </div>
+      </div>
+      <div class="xp-row">
+        <div class="xp-when">AUG 2025 — PRESENT</div>
+        <div>
+          <p class="xp-role">Research Fellow — Mission Engineering (NASA NIAC)</p>
+          <p class="xp-org">Head Group, Brown University <span class="where">· w/ Prof. James Head &amp; Apollo 15 Cmdr. David Scott</span></p>
+          <p class="xp-desc">Built a Python electro-thermal power-transmission model for candidate lunar base configurations. Sized Artemis grid layouts with LROC QuickMap terrain data, designing reactor siting, redundancy, and energy storage across a 500-day mission. Presented findings to 100+ attendees including NASA stakeholders.</p>
+        </div>
+      </div>
+      <div class="xp-row">
+        <div class="xp-when">JUN 2023 — AUG 2023</div>
+        <div>
+          <p class="xp-role">Integration &amp; Test Engineering Intern</p>
+          <p class="xp-org">Rocket Lab <span class="where">· Long Beach, CA</span></p>
+          <p class="xp-desc">Designed the thermal, mechanical, and electrical systems for the Pioneer spacecraft camera module in Siemens NX. Took the sub-system from inception to design review in under six weeks, integrated in under eight — camera now operational in LEO.</p>
+        </div>
+      </div>
+      <div class="xp-row">
+        <div class="xp-when">OCT 2024 — AUG 2025</div>
+        <div>
+          <p class="xp-role">Research Fellow — Martian Geomorphology</p>
+          <p class="xp-org">Daubar Group, Brown University <span class="where">· Providence, RI</span></p>
+          <p class="xp-desc">Built a database of 500+ Martian impact sites with QGIS, JMARS, and Python; developed and statistically analyzed a directional-impact model linking ejecta-streak orientation to oblique-impact dynamics.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="wrap">
+    <p class="kicker reveal">// 03 — What I build</p>
+    <h2 class="h-big reveal">Projects</h2>
+    <div class="work-grid reveal">
+
+      <div class="work linked">
+        <a class="stretch" href="projects/pioneer-camera.html" aria-label="Pioneer spacecraft camera module"></a>
+        <div class="work-idx"><span>01 / SPACECRAFT</span><span class="work-tag live">In orbit</span></div>
+        <h3>Pioneer spacecraft camera module</h3>
+        <p class="cat">Rocket Lab · Integration &amp; Test Engineering</p>
+        <p>Designed the thermal, mechanical, and electrical systems for the camera module of Rocket Lab's Pioneer spacecraft, then carried it from design to orbit — now imaging Earth from low Earth orbit.</p>
+        <div class="thumbs">
+          <button class="thumb" type="button" onclick="lb(event,'assets/camera.jpg')"><img src="assets/camera.jpg" alt="Photo of Earth from orbit" /></button>
+        </div>
+        <span class="work-more">Project details →</span>
+      </div>
+
+      <div class="work linked">
+        <a class="stretch" href="projects/hydrogen-crm.html" aria-label="Hydrogen collisional-radiative model"></a>
+        <div class="work-idx"><span>02 / COMPUTATION</span><span class="work-tag">PHYS 1600</span></div>
+        <h3>Hydrogen collisional-radiative model</h3>
+        <p class="cat">Computational Physics · Final project</p>
+        <p>A collisional-radiative model of atomic hydrogen that maps where Balmer-line spectroscopy gives reliable plasma diagnostics — extended to a time-dependent mode to find where the steady-state assumption breaks down.</p>
+        <div class="thumbs">
+          <button class="thumb" type="button" onclick="lb(event,'assets/cr_sensitivity.png')"><img src="assets/cr_sensitivity.png" alt="Sensitivity maps" /></button>
+          <button class="thumb" type="button" onclick="lb(event,'assets/cr_comparison.png')"><img src="assets/cr_comparison.png" alt="Model validation" /></button>
+        </div>
+        <span class="work-more">Project details →</span>
+      </div>
+
+      <div class="work linked">
+        <a class="stretch" href="projects/cafe-search.html" aria-label="Providence Café Search"></a>
+        <div class="work-idx"><span>03 / SOFTWARE</span><span class="work-tag">Open source</span></div>
+        <h3>Providence Café Search</h3>
+        <p class="cat">Side project · Semantic search</p>
+        <p>A semantic search engine over 110 Providence cafés — natural-language queries like "quiet café for studying," ranked with OpenAI embeddings, FAISS retrieval, sentiment-aware weighting, and top-K attention pooling.</p>
+        <span class="work-more">Project details →</span>
+      </div>
+
+      <div class="work linked">
+        <a class="stretch" href="projects/guitar.html" aria-label="Hand-built electric guitar"></a>
+        <div class="work-idx"><span>04 / LUTHIERY</span><span class="work-tag">Hand-built</span></div>
+        <h3>Hand-built electric guitar</h3>
+        <p class="cat">Things I build · Woodworking + electronics</p>
+        <p>A single-cut electric built from a Warmoth flame-maple-capped mahogany body and rosewood-board neck — fretwork, hand-soldered 50s-style wiring, and a full setup.</p>
+        <div class="thumbs">
+          <button class="thumb" type="button" onclick="lb(event,'assets/guitar-live.png')"><img src="assets/guitar-live.png" alt="Playing the guitar live" /></button>
+          <button class="thumb" type="button" onclick="lb(event,'assets/guitar-body.jpg')"><img src="assets/guitar-body.jpg" alt="Finished mahogany body" /></button>
+          <button class="thumb" type="button" onclick="lb(event,'assets/guitar-wiring.jpg')"><img src="assets/guitar-wiring.jpg" alt="Hand-wired cavity" /></button>
+        </div>
+        <span class="work-more">Project details →</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH / PUBLICATIONS -->
+<section id="research">
+  <div class="wrap">
+    <p class="kicker reveal">// 04 — On the record</p>
+    <h2 class="h-big reveal">Research</h2>
+    <p class="pub-scholar reveal"><a href="https://scholar.google.com/citations?hl=en&amp;user=NaYXsH0AAAAJ" target="_blank">View full profile on Google Scholar ↗</a></p>
+    <div style="margin-top:28px" class="reveal">
+      <div class="pub"><span class="pub-n">01</span><div><p class="pub-t"><a href="https://www.hou.usra.edu/meetings/lpsc2026/pdf/1063.pdf" target="_blank">Plume–surface interaction in Artemis lunar operations ↗</a></p><p class="pub-a">Ramanathan, L. &amp; Head, J. W. (2026) · Hadley Max 500-Day DRM</p></div><span class="pub-v">57th LPSC #1063 · oral</span></div>
+      <div class="pub"><span class="pub-n">02</span><div><p class="pub-t"><a href="https://www.hou.usra.edu/meetings/lpsc2026/pdf/1129.pdf" target="_blank">Lunar surface power technology and architecture ↗</a></p><p class="pub-a">Ramanathan, L. &amp; Head, J. W. (2026) · Hadley Max 500-Day DRM</p></div><span class="pub-v">57th LPSC #1129 · poster</span></div>
+      <div class="pub"><span class="pub-n">03</span><div><p class="pub-t"><a href="https://www.hou.usra.edu/meetings/lpsc2026/pdf/1057.pdf" target="_blank">Human-robotic scientific exploration of the Moon and Mars ↗</a></p><p class="pub-a">Head, J. W., Scott, D. R., … Ramanathan, L., et al. (2026) · Hadley Max 500-Day DRM</p></div><span class="pub-v">57th LPSC #1057</span></div>
+      <div class="pub"><span class="pub-n">04</span><div><p class="pub-t"><a href="assets/EPSC2026-1114.pdf" target="_blank">Origin of Martian "blast zone streaks" from small impacts ↗</a></p><p class="pub-a">Sokolowska, A., Daubar, I., Ramanathan, L., et al. (2026)</p></div><span class="pub-v">EPSC #2026-1114</span></div>
+      <div class="pub"><span class="pub-n">05</span><div><p class="pub-t">Dark blast zone streaks reveal impact trajectories in new Martian craters</p><p class="pub-a">Sokolowska, A., Daubar, I., Ramanathan, L., et al.</p></div><span class="pub-v">in prep.</span></div>
+      <div class="pub"><span class="pub-n">06</span><div><p class="pub-t">Human-robotic exploration of the Moon and Mars (expanded)</p><p class="pub-a">Head, J. W., Scott, D. R., … Ramanathan, L., et al.</p></div><span class="pub-v">in prep.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <div class="wrap">
+    <p class="kicker reveal">// 05 — Say hello</p>
+    <h2 class="h-big reveal">Let's build something.</h2>
+    <div class="contact-row reveal">
+      <a class="cbtn primary" href="mailto:logan_ramanathan@brown.edu">logan_ramanathan@brown.edu</a>
+      <a class="cbtn" href="https://linkedin.com/in/loganramanathan" target="_blank">LinkedIn ↗</a>
+      <a class="cbtn" href="https://scholar.google.com/citations?hl=en&amp;user=NaYXsH0AAAAJ" target="_blank">Google Scholar ↗</a>
+      <a class="cbtn" href="assets/Logan_Ramanathan_Resume.pdf" target="_blank">Résumé ↓</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 LOGAN RAMANATHAN</span>
+    <span>DESIGNED &amp; BUILT BY HAND · PROVIDENCE / STANFORD</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+  var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:0.1});
+  els.forEach(function(e){io.observe(e)});
+})();
+// active nav on scroll
+(function(){
+  var links=[].slice.call(document.querySelectorAll('.tb-mid a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));});
+  function onScroll(){
+    var y=window.scrollY+120,idx=0;
+    secs.forEach(function(s,i){if(s&&s.offsetTop<=y)idx=i;});
+    links.forEach(function(a,i){a.classList.toggle('active',i===idx);});
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+</script>
+<div id="lb" onclick="this.classList.remove('open')"><img id="lbimg" src="" alt="enlarged project image" /></div>
+<script>
+function lb(e,src){e.preventDefault();e.stopPropagation();var o=document.getElementById('lb');document.getElementById('lbimg').src=src;o.classList.add('open');}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){var o=document.getElementById('lb');if(o)o.classList.remove('open');}});
+</script>
+</body>
+</html>

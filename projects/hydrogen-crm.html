@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hydrogen collisional-radiative model — Logan Ramanathan</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="project.css" />
+</head>
+<body>
+<header class="topbar"><div class="wrap"><a class="back" href="../index.html#work">← All projects</a><span class="who">LOGAN RAMANATHAN</span></div></header>
+
+<section class="hero"><div class="wrap">
+  <p class="kicker">PHYS 1600 · Computational Physics — Final Project</p>
+  <h1>Hydrogen collisional-radiative model</h1>
+  <p class="sub">Quantifying the sensitivity of Balmer-line spectroscopy for hydrogen plasma diagnostics using a collisional-radiative model.</p>
+  <div class="meta"><span>Python</span><span>April 2026</span><span>Brown University</span></div>
+</div></section>
+
+<section class="body"><div class="wrap">
+  <div class="fig contain"><img src="../assets/cr_sensitivity.png" alt="Sensitivity maps of Balmer line ratios across temperature and density" /><p class="figcap">Sensitivity maps of the Hβ/Hα and Hγ/Hβ line ratios across the (Tₑ, nₑ) parameter space.</p></div>
+
+  <h2>Overview</h2>
+  <p>Measuring electron temperature and density is essential across fusion research, spacecraft propulsion, and industrial plasmas. Balmer-line spectroscopy offers a non-invasive way to do it — but only in the regimes where line ratios actually depend on the plasma parameters. I built a <strong>collisional-radiative (CR) model of atomic hydrogen</strong> to map exactly where those Balmer diagnostics are reliable, and where they break down.</p>
+  <p>The model tracks <strong>15 energy levels</strong>, using electron-impact rate coefficients from Vriens &amp; Smeets (1980) and oscillator strengths from Johnson (1972), with Einstein A-coefficients verified against tabulated quantum-mechanical values to better than 0.1%.</p>
+
+  <h2>Approach</h2>
+  <ul>
+    <li>Assembled the full rate matrix — electron-impact excitation/de-excitation, ionization, spontaneous radiative decay, and three-body recombination — and solved the steady-state populations with linear algebra (<span style="font-family:var(--mono);font-size:0.9em">numpy.linalg.solve</span>).</li>
+    <li>Validated against the published results of Vinoth et al. (2022), and independently against the analytic <strong>coronal</strong> (low-density) and <strong>Saha–Boltzmann / LTE</strong> (high-density) limits.</li>
+    <li>Extended the model to a <strong>time-dependent mode</strong>, integrating the rate equations forward with a stiff BDF solver (<span style="font-family:var(--mono);font-size:0.9em">scipy.integrate.solve_ivp</span>) to test oscillating plasma conditions.</li>
+    <li>Used eigenvalue analysis of the rate matrix to extract the system's natural equilibration timescales independently of the full integration.</li>
+  </ul>
+
+  <h2>Key findings</h2>
+  <ul>
+    <li><strong>Temperature sensitivity</strong> of the Balmer ratios is confined to kTₑ ≲ 5 eV.</li>
+    <li><strong>Density sensitivity</strong> peaks in the collisional-radiative transition region, nₑ ∼ 10<sup>11</sup>–10<sup>13</sup> cm<sup>−3</sup>.</li>
+    <li>For oscillating conditions, the steady-state diagnostic assumption breaks down near ∼100 kHz at nₑ = 10<sup>10</sup> cm<sup>−3</sup>, and only near ∼1 MHz at nₑ = 10<sup>15</sup> cm<sup>−3</sup> — and the time-dependent response shows nonlinear amplification effects.</li>
+  </ul>
+
+  <div class="fig contain"><img src="../assets/cr_comparison.png" alt="Model validation against Vinoth et al. 2022" /><p class="figcap">Model output validated against the published measurements of Vinoth et al. (2022).</p></div>
+
+  <div class="links">
+    <a class="lbtn primary" href="../assets/hydrogen-crm-report.pdf" target="_blank">Read the full report (PDF) ↗</a>
+    <a class="lbtn" href="../assets/cr_comparison.png" target="_blank">View figures ↗</a>
+  </div>
+</div></section>
+
+<footer><div class="wrap"><span>© 2026 LOGAN RAMANATHAN</span><span><a href="../index.html">← back to site</a></span></div></footer>
+</body>
+</html>
